@@ -1,31 +1,50 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>미래 시간 계산기</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>미래 시간 계산기</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+        input { width: 60px; text-align: center; margin: 5px; }
+        button { padding: 10px; margin-top: 10px; cursor: pointer; }
+        #result { font-size: 20px; margin-top: 15px; font-weight: bold; }
+    </style>
 </head>
 <body>
-  <h2>미래 시간 계산기</h2>
-  <label>시: <input type="number" id="hours" value="0"></label>
-  <label>분: <input type="number" id="minutes" value="0"></label>
-  <label>초: <input type="number" id="seconds" value="0"></label>
-  <button onclick="calculateFutureTime()">미래 시간 계산</button>
-  <p id="result"></p>
+    <h2>미래 시간 계산기</h2>
+    <label>시: <input type="number" id="hours" value="0" min="0"></label>
+    <label>분: <input type="number" id="minutes" value="0" min="0"></label>
+    <label>초: <input type="number" id="seconds" value="0" min="0"></label>
+    <br>
+    <button onclick="calculateFutureTime()">미래 시간 계산</button>
+    <button onclick="copyToClipboard()">결과 복사</button>
+    <p id="result">계산된 시간이 여기에 표시됩니다.</p>
 
-  <script>
-    function calculateFutureTime() {
-      const h = parseInt(document.getElementById('hours').value) || 0;
-      const m = parseInt(document.getElementById('minutes').value) || 0;
-      const s = parseInt(document.getElementById('seconds').value) || 0;
+    <script>
+        function calculateFutureTime() {
+            const h = parseInt(document.getElementById('hours').value) || 0;
+            const m = parseInt(document.getElementById('minutes').value) || 0;
+            const s = parseInt(document.getElementById('seconds').value) || 0;
 
-      const now = new Date();
-      now.setHours(now.getHours() + h);
-      now.setMinutes(now.getMinutes() + m);
-      now.setSeconds(now.getSeconds() + s);
+            const now = new Date();
+            now.setHours(now.getHours() + h);
+            now.setMinutes(now.getMinutes() + m);
+            now.setSeconds(now.getSeconds() + s);
 
-      const formatted = now.toTimeString().split(' ')[0];
-      document.getElementById('result').innerText = `미래 시간은: ${formatted}`;
-    }
-  </script>
+            const formatted = now.toTimeString().split(' ')[0];
+            document.getElementById('result').innerText = `미래 시간: ${formatted}`;
+        }
+
+        function copyToClipboard() {
+            const resultText = document.getElementById('result').innerText.replace('미래 시간: ', '');
+            navigator.clipboard.writeText(resultText).then(() => {
+                alert('복사 완료: ' + resultText);
+            }).catch(err => {
+                alert('복사 실패!');
+            });
+        }
+    </script>
 </body>
 </html>
+
